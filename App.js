@@ -1,20 +1,79 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+
+import Document from "./components/Document";
+
+import { FormExample } from "./assets/documents/form";
+import { SimpleExample } from "./assets/documents/simple";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+function DetailsScreen({ route, navigation }) {
+  const { document } = route.params;
+  return (
+    <SafeAreaView style={styles.container}>
+      <Button title="Back" onPress={() => navigation.goBack()} />
+      <Document document={document} renderers={{}} />
+    </SafeAreaView>
+  );
+}
+
+function HomeScreen({ navigation }) {
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={[SimpleExample, FormExample]}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.item}
+            onPress={() => {
+              navigation.push("Details", {
+                document: item,
+              });
+            }}
+          >
+            <Text style={styles.title}>{item.title}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </SafeAreaView>
+  );
+}
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+  },
+  item: {
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
   },
 });
