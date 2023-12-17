@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { Document as DocumentT, UISchemaElement as UISchemaElementT, LayoutSchema as LayoutSchemaT, RichTextElement, Categorization, Category } from '../model/document.zod';
-import Markdown from 'react-native-markdown-display';
+import { JsonForms } from '@jsonforms/react';
+import { RNCells, RNRenderers } from "../jsonforms";
 
 interface DocumentProps {
   document: DocumentT;
@@ -9,48 +10,35 @@ interface DocumentProps {
 }
 
 const Document: React.FC<DocumentProps> = ({ document, renderers }) => {
-  var elements: React.ReactElement[];
-
-  const [categoryIndex, setCategoryIndex] = useState(0);
-
-  const verticalLayout = (elements: UISchemaElementT[]): React.ReactElement[] => {
-    return elements.map((e: UISchemaElementT, index) => {
-      switch(e.type) {
-        case 'richtext':
-          return (<Markdown>
-            {(e as RichTextElement).content}
-          </Markdown>);
-        default:
-          return <View key={index}><Text>{e.type}</Text></View>;
-      }
-    });
-  }
-
-  switch (document.structure.type) {
-    case 'VerticalLayout':
-      const layout = document.structure as LayoutSchemaT;
-      elements = verticalLayout(layout.elements);
-      break;
-    case 'Categorization':
-      const categorization = document.structure as Categorization;
-      const es = categorization.elements as Category[];
-      elements = verticalLayout(es[categoryIndex].elements);
-      if (categoryIndex != 0) {
-        elements.push(<Button onPress={() => setCategoryIndex(categoryIndex - 1)} title={'Previous'}/>);
-      } 
-      if (categoryIndex < es.length - 1) {
-        elements.push(<Button onPress={() => setCategoryIndex(categoryIndex + 1)} title={'Next'}/>);
-      }
-      break;
-    default:
-      elements = [];
-      console.error(`Unsupported uischema type: ${document.structure.type}`)
-  }
-
   return (
-    <View style={styles.container}>
-      {elements}
-    </View>
+      <JsonForms
+        data={
+          {
+            "name": "John Doe",
+          }
+        }
+        uischema={{
+          "type": "VerticalLayout",
+          "elements": [{
+            type: "RichText",
+            content: "test"
+        },
+          ]
+        }}
+        schema={{
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 3,
+              "description": "Please enter your name"
+            },
+          }
+        }}
+        renderers={RNRenderers}
+        cells={RNCells}
+        onChange={({ data }) => console.log(data)}
+      />
   );
 };
 
