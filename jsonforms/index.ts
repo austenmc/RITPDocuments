@@ -21,6 +21,7 @@ export const RNRenderers: { tester: RankedTester; renderer: any }[] = [
     { tester: complex.labelRendererTester, renderer: complex.LabelRenderer },
     { tester: complex.categorizationTester, renderer: complex.Categorization },
     { tester: complex.richTextRendererTester, renderer: complex.RichText },
+{tester: complex.unknownRendererTester, renderer: complex.Unknown}
 ];
 
 export const RNCells: Array<{ tester: RankedTester; cell: any }> = [];

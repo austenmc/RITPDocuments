@@ -11,7 +11,7 @@ export const SimpleExample = {
     type: "VerticalLayout",
     elements: [
       {
-        type: "richtext",
+        type: "RichText",
         content:
           "# Here's Our Form!\nHey it's a form, enjoy it!\n* Bullet 1\n* Bullet 2",
       },

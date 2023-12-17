@@ -45,62 +45,20 @@ export const FormExample = {
         label: "categoryLabelKey",
         elements: [
           {
-            type: "richtext",
+            type: "RichText",
             content: "# Here's Our Form!\nHey it's a form, enjoy it!",
           },
-          {
-            type: "carousel",
-            options: {
-              size: "large",
-            },
-            content: [
-              {
-                type: "video",
-                url: "...",
-              },
-            ],
-          },
-          {
-            type: "Control",
-            label: "Today's date",
-            scope: "#/properties/date",
-          },
-        ],
+                    {
+                        type: "Control",
+                        label: "Today's date",
+                        scope: "#/properties/date",
+                      },
+       ],
       },
       {
         type: "Category",
         label: "nextCategory",
         elements: [
-          {
-            type: "Control",
-            label: "Put in a number",
-            scope: "#/properties/q1",
-          },
-          {
-            type: "Control",
-            label: "Rate something",
-            scope: "#/properties/q2",
-            options: {
-              star: true,
-            },
-          },
-          {
-            type: "Control",
-            label: "Why did you rate it less than 3 stars?",
-            scope: "#/properties/q3",
-            options: {
-              multi: true,
-            },
-            rule: {
-              effect: "SHOW",
-              condition: {
-                scope: "#/properties/q2",
-                schema: {
-                  exclusiveMaximum: 3,
-                },
-              },
-            },
-          },
         ],
       },
     ],

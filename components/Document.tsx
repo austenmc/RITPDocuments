@@ -12,32 +12,11 @@ interface DocumentProps {
 const Document: React.FC<DocumentProps> = ({ document, renderers }) => {
   return (
       <JsonForms
-        data={
-          {
-            "name": "John Doe",
-          }
-        }
-        uischema={{
-          "type": "VerticalLayout",
-          "elements": [{
-            type: "RichText",
-            content: "test"
-        },
-          ]
-        }}
-        schema={{
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "minLength": 3,
-              "description": "Please enter your name"
-            },
-          }
-        }}
+        data={document.data ?? {}}
+        uischema={document.structure}
+        schema={document.schema ?? {}}
         renderers={RNRenderers}
         cells={RNCells}
-        onChange={({ data }) => console.log(data)}
       />
   );
 };
