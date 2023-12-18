@@ -6,7 +6,6 @@ export const SimpleExample = {
   privacy: "public",
   state: "published",
   contributors: [],
-  featuredImage: null,
   structure: {
     type: "VerticalLayout",
     elements: [

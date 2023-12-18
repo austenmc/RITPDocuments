@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import {
   FlatList,
   SafeAreaView,
@@ -8,7 +7,7 @@ import {
   Button,
 } from "react-native";
 
-import Document from "./components/Document";
+import { DocumentRenderer, DocumentSchema } from "./documents";
 
 import { FormExample } from "./assets/documents/form";
 import { SimpleExample } from "./assets/documents/simple";
@@ -18,10 +17,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 function DetailsScreen({ route, navigation }) {
   const { document } = route.params;
+
+  try {
+    DocumentSchema.parse(document);
+  } catch (e) {
+    console.warn(e);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Button title="Back" onPress={() => navigation.goBack()} />
-      <Document document={document} renderers={{}} />
+      <DocumentRenderer document={document} />
     </SafeAreaView>
   );
 }

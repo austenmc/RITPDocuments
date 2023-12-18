@@ -6,7 +6,6 @@ export const FormExample = {
   privacy: "public",
   state: "published",
   contributors: [],
-  featuredImage: null,
   data: {
     q1: 1,
     q2: 2,
